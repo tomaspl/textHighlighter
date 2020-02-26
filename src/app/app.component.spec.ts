@@ -1,16 +1,19 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { TestBed, async } from "@angular/core/testing";
+import { AppComponent } from "./app.component";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { Store, StateObservable } from "@ngrx/store";
+import { MockStore } from "./mocks/store.mock";
 
-describe('AppComponent', () => {
+describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      declarations: [AppComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [{ provide: Store, useClass: MockStore }]
     }).compileComponents();
   }));
 
-  it('should create the app', () => {
+  it("should create the app", () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
@@ -19,13 +22,15 @@ describe('AppComponent', () => {
   it(`should have as title 'textHighlighter'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('textHighlighter');
+    expect(app.title).toEqual("Text Highlighter");
   });
 
-  it('should render title', () => {
+  it("should render title", () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('textHighlighter app is running!');
+    expect(compiled.querySelector(".content span").textContent).toContain(
+      "Text Highlighter"
+    );
   });
 });
