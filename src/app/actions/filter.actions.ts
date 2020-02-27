@@ -1,4 +1,4 @@
-import { createAction, Action } from "@ngrx/store";
+import { Action } from "@ngrx/store";
 
 export class ChangeColour implements Action {
   readonly type = "ChangeColour";

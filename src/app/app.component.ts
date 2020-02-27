@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import * as colourActions from "./actions/filter.actions";
 
 @Component({
@@ -9,10 +9,14 @@ import * as colourActions from "./actions/filter.actions";
 })
 export class AppComponent {
   title = "Text Highlighter";
-  constructor(private store: Store<any>) {}
-
+  selectedColour: any;
+  constructor(private store: Store<{ state: { colour: string } }>) {}
+  ngOnInit() {
+    this.store.select("state", "colour").subscribe(colour => {
+      this.selectedColour = colour;
+    });
+  }
   selectedColor(colour) {
-    const test = new colourActions.ChangeColour(colour);
-    this.store.dispatch(test);
+    this.store.dispatch(new colourActions.ChangeColour(colour));
   }
 }
