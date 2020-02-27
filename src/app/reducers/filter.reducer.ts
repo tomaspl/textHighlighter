@@ -1,21 +1,18 @@
-//import { createReducer, on } from "@ngrx/store";
-import { ColourActions } from "../actions/filter.actions";
-
-export interface ColourState {
-  colour: string;
-}
-
-export const initialState = {};
-
-export const initialStateApp = {
-  state: {
-    colour: ""
-  }
-};
-
-export function colour(state = initialState, action: ColourActions): any {
+export const initialState = "";
+export function colour(state = initialState, action): any {
   switch (action.type) {
     case "ChangeColour":
       return action.payload;
+    default:
+      return state;
+  }
+}
+
+export function filterColour(state = initialState, action): any {
+  switch (action.type) {
+    case "ChangeFilter":
+      return action.payload;
+    default:
+      return state;
   }
 }

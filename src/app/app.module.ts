@@ -7,12 +7,10 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MatCardModule } from "@angular/material/card";
 import { StoreModule, combineReducers } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import {
-  colour,
-  initialState,
-  initialStateApp
-} from "./reducers/filter.reducer";
+
+import { colour, filterColour, initialState } from "./reducers/filter.reducer";
 import { state } from "@angular/animations";
+import { reducers } from "./reducers";
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,9 +18,7 @@ import { state } from "@angular/animations";
     BrowserModule,
     NoopAnimationsModule,
     MatCardModule,
-    StoreModule.forRoot({
-      state: combineReducers({ colour })
-    }),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 10
     })

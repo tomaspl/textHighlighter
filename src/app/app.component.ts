@@ -10,13 +10,21 @@ import * as colourActions from "./actions/filter.actions";
 export class AppComponent {
   title = "Text Highlighter";
   selectedColour: any;
-  constructor(private store: Store<{ state: { colour: string } }>) {}
+  filterColour: any;
+  constructor(private store: Store<{ colour: string; filterColour: string }>) {}
   ngOnInit() {
-    this.store.select("state", "colour").subscribe(colour => {
+    this.store.select("colour").subscribe(colour => {
       this.selectedColour = colour;
+    });
+
+    this.store.select("filterColour").subscribe(colour => {
+      this.filterColour = colour;
     });
   }
   selectedColor(colour) {
     this.store.dispatch(new colourActions.ChangeColour(colour));
+  }
+  selectedFilter(colour) {
+    this.store.dispatch(new colourActions.ChangeFilter(colour));
   }
 }

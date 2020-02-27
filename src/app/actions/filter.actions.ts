@@ -5,5 +5,10 @@ export class ChangeColour implements Action {
   constructor(public payload: string) {}
 }
 
+export class ChangeFilter implements Action {
+  readonly type = "ChangeFilter";
+  constructor(public payload: string) {}
+}
+
 // Union the valid types
-export type ColourActions = ChangeColour;
+export type ColourActions = ChangeColour | ChangeFilter;
