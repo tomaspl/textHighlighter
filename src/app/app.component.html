@@ -124,7 +124,7 @@
     <div
       class="writeableBox"
       contenteditable="true"
-      [innerHTML]="text_test"
+      [innerHTML]="userText"
       (selectedText)="highlightText($event)"
       [selectedColour]="selectedColour"
     ></div>
@@ -135,7 +135,7 @@
     </p>
     <div class="card-container">
       <a
-        class="card"
+        [ngClass]="{ card: true, active: filterColour === 'red' }"
         target="_blank"
         rel="noopener"
         (click)="selectedFilter('red')"
@@ -148,7 +148,7 @@
       </a>
 
       <a
-        class="card"
+        [ngClass]="{ card: true, active: filterColour === 'yellow' }"
         target="_blank"
         rel="noopener"
         (click)="selectedFilter('yellow')"
@@ -161,7 +161,7 @@
       </a>
 
       <a
-        class="card"
+        [ngClass]="{ card: true, active: filterColour === 'green' }"
         target="_blank"
         rel="noopener"
         (click)="selectedFilter('green')"

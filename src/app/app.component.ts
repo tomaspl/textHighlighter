@@ -1,13 +1,7 @@
-import { BrowserModule, DomSanitizer } from "@angular/platform-browser";
-import {
-  Component,
-  ViewChild,
-  ElementRef,
-  ViewEncapsulation
-} from "@angular/core";
-import { Store, select } from "@ngrx/store";
+import { DomSanitizer } from "@angular/platform-browser";
+import { Component, ViewEncapsulation } from "@angular/core";
+import { Store } from "@ngrx/store";
 import * as colourActions from "./actions/filter.actions";
-import { SelectedTextDirective } from "./directives/selected-text.directive";
 
 @Component({
   selector: "app-root",
@@ -19,7 +13,7 @@ export class AppComponent {
   title = "Text Highlighter";
   selectedColour: any;
   filterColour: any;
-  text_test: any;
+  userText: any;
   constructor(
     private store: Store<{
       colourToHighlight: string;
@@ -35,7 +29,7 @@ export class AppComponent {
     this.store.select("colourToFilterHighlights").subscribe(colour => {
       this.filterColour = colour;
     });
-    this.text_test = this.sanitizer.bypassSecurityTrustHtml(
+    this.userText = this.sanitizer.bypassSecurityTrustHtml(
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempor."
     );
   }
@@ -44,9 +38,16 @@ export class AppComponent {
   }
   selectedFilter(colour) {
     this.store.dispatch(new colourActions.ChangeFilter(colour));
+    this.store.dispatch(new colourActions.FilterTextSelection(colour));
   }
 
   highlightText($event) {
-    this.text_test = this.sanitizer.bypassSecurityTrustHtml($event);
+    this.userText = this.sanitizer.bypassSecurityTrustHtml($event.htmlText);
+    this.store.dispatch(
+      new colourActions.AddedTextSelection({
+        colourText: $event.colourText,
+        text: $event.storeText
+      })
+    );
   }
 }

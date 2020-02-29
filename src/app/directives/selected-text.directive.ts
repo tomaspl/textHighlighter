@@ -38,8 +38,7 @@ export class SelectedTextDirective implements OnInit, OnDestroy {
 
   private handleMouseup = (): void => {
     document.removeEventListener("mouseup", this.handleMouseup, false);
-
-    this.processSelection();
+    if (this.selectedColour) this.processSelection();
   };
 
   private handleMousedown = (): void => {
@@ -76,7 +75,11 @@ export class SelectedTextDirective implements OnInit, OnDestroy {
       .replace("&gt;", ">")
       .replace("&lt;", "<");
 
-    this.selectedTextEvent.emit(b);
+    this.selectedTextEvent.emit({
+      htmlText: b,
+      storeText: textSelected,
+      colourText: this.selectedColour
+    });
   }
 
   private handleSelectionchange = (): void => {
