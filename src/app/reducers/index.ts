@@ -1,8 +1,9 @@
 import { ActionReducerMap } from "@ngrx/store";
 
-import * as filterReducer from "./filter.reducer";
+import * as highlightReducer from "./highlight.reducer";
+import * as groupHighlightsReducer from "./groupHighlights.reducer";
 
 export const reducers: ActionReducerMap<any> = {
-  colour: filterReducer.colour,
-  filterColour: filterReducer.filterColour
+  colourToHighlight: highlightReducer.colour,
+  colourToFilterHighlights: groupHighlightsReducer.filterColour
 };

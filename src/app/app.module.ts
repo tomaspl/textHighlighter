@@ -8,16 +8,17 @@ import { MatCardModule } from "@angular/material/card";
 import { StoreModule, combineReducers } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
-import { colour, filterColour, initialState } from "./reducers/filter.reducer";
-import { state } from "@angular/animations";
 import { reducers } from "./reducers";
+import { SelectedTextDirective } from "./directives/selected-text.directive";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SelectedTextDirective],
   imports: [
     BrowserModule,
     NoopAnimationsModule,
     MatCardModule,
+    FormsModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 10

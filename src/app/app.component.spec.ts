@@ -3,11 +3,12 @@ import { AppComponent } from "./app.component";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { Store, StateObservable } from "@ngrx/store";
 import { MockStore } from "./mocks/store.mock";
+import { SelectedTextDirective } from "./directives/selected-text.directive";
 
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [AppComponent, SelectedTextDirective],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [{ provide: Store, useClass: MockStore }]
     }).compileComponents();
