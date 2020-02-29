@@ -1,8 +1,27 @@
-export const initialState = "";
-export function colour(state = initialState, action): any {
+export const initialState = {
+  colourToHighlight: "",
+  colourToFilterHighlights: "",
+  selectionList: [],
+  filteredSelectionList: []
+};
+export function reducer(state = initialState, action): any {
   switch (action.type) {
     case "ChangeColour":
-      return action.payload;
+      return { ...state, colourToHighlight: action.payload };
+    case "ChangeFilter":
+      return { ...state, colourToFilterHighlights: action.payload };
+    case "AddSelection":
+      return {
+        ...state,
+        selectionList: [...state.selectionList, action.payload]
+      };
+    case "FilterSelection":
+      return {
+        ...state,
+        filteredSelectionList: state.selectionList.filter(
+          elem => elem.colourText === action.payload
+        )
+      };
     default:
       return state;
   }

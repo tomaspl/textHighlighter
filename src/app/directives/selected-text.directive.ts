@@ -77,8 +77,7 @@ export class SelectedTextDirective implements OnInit, OnDestroy {
 
     this.selectedTextEvent.emit({
       htmlText: b,
-      storeText: textSelected,
-      colourText: this.selectedColour
+      storeText: textSelected
     });
   }
 
