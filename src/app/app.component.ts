@@ -39,7 +39,22 @@ export class AppComponent {
     this.userText = this.sanitizer.bypassSecurityTrustHtml(
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempor."
     );
+
+    document.addEventListener("dragstart", function(event) {
+      // store a ref. on the dragged elem
+      event.preventDefault();
+    });
   }
+
+  onDragOver(event) {
+    console.log("onDragOver");
+    event.preventDefault();
+  }
+
+  onDragLeave(event) {
+    event.preventDefault();
+  }
+
   selectedColor(colour) {
     this.store.dispatch(new colourActions.ChangeColour(colour));
   }

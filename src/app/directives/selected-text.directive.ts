@@ -46,38 +46,40 @@ export class SelectedTextDirective implements OnInit, OnDestroy {
   };
 
   private processSelection(): void {
-    const textSelected = window
+    console.log("this.selectedColour", this.selectedColour);
+    const selectedText = window
       .getSelection()
       .anchorNode.nodeValue.substring(
         window.getSelection().anchorOffset,
         window.getSelection().focusOffset
       );
-    const test =
+    const selectedTextStyled =
       "<mark style='background:" +
       this.selectedColour +
       "'>" +
-      textSelected +
+      selectedText +
       "</mark>";
-    const prev = window
+    const previousText = window
       .getSelection()
       .anchorNode.nodeValue.slice(0, window.getSelection().anchorOffset);
-    const post = window
+    const afterText = window
       .getSelection()
       .anchorNode.nodeValue.slice(
         window.getSelection().focusOffset,
         window.getSelection().anchorNode.nodeValue.length
       );
-    window.getSelection().anchorNode.nodeValue = prev + test + post;
-    const a = window.getSelection().focusNode.parentElement.innerHTML;
-    const b = a
+    window.getSelection().anchorNode.nodeValue =
+      previousText + selectedTextStyled + afterText;
+    const newText = window.getSelection().focusNode.parentElement.innerHTML;
+    const newHTMLParsed = newText
       .replace("&gt;", ">")
       .replace("&lt;", "<")
       .replace("&gt;", ">")
       .replace("&lt;", "<");
 
     this.selectedTextEvent.emit({
-      htmlText: b,
-      storeText: textSelected
+      htmlText: newHTMLParsed,
+      storeText: selectedText
     });
   }
 
