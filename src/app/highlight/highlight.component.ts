@@ -29,7 +29,7 @@ export class HighlightComponent implements OnInit, OnChanges {
   @Output() filterByColour = new EventEmitter<string>();
 
   selectedColour: string;
-  listHighlightByColour: SafeHtml;
+  listHighlightByColour: any;
   userText: SafeHtml;
   constructor(
     private store: Store<{ state: HighlightState }>,
@@ -61,12 +61,10 @@ export class HighlightComponent implements OnInit, OnChanges {
   }
 
   selectColor(colour) {
-    this.store.dispatch(new colourActions.ChangeColour(colour));
     this.selectedColour = colour;
   }
   selectedFilter(colour) {
     this.filterByColour.emit(colour);
-    this.store.dispatch(new colourActions.ChangeFilter(colour));
   }
 
   highlightText($event) {

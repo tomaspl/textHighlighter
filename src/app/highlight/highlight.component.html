@@ -32,7 +32,7 @@
   </p>
   <div class="card-container">
     <a
-      *ngFor="let itemColour of coloursToHighlight"
+      *ngFor="let itemColour of coloursForHighlight"
       [ngClass]="{ card: true, active: filterColour === itemColour.colour }"
       (click)="selectedFilter(itemColour.colour)"
     >
