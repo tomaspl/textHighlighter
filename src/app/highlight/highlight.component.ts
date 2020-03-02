@@ -9,13 +9,7 @@ import {
   SimpleChanges,
   OnChanges
 } from "@angular/core";
-import { Store } from "@ngrx/store";
-import * as colourActions from "./../actions/filter.actions";
-import {
-  HighlightState,
-  ColourSelection,
-  ColourConfiguration
-} from "../models/models";
+import { ColourSelection, ColourConfiguration } from "../models/models";
 @Component({
   selector: "app-highlight",
   templateUrl: "./highlight.component.html",
@@ -31,10 +25,7 @@ export class HighlightComponent implements OnInit, OnChanges {
   selectedColour: string;
   listHighlightByColour: any;
   userText: SafeHtml;
-  constructor(
-    private store: Store<{ state: HighlightState }>,
-    private sanitizer: DomSanitizer
-  ) {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges.listFilteredByHighlightColour.currentValue) {

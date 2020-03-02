@@ -16,7 +16,6 @@ describe("HighlightComponent", () => {
       declarations: [HighlightComponent, SelectedTextDirective],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: Store, useClass: MockStore },
         {
           provide: DomSanitizer,
           useValue: {
