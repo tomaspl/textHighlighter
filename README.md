@@ -4,11 +4,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Setup
 
-### Run `git clone https://github.com/tomaspl/textHighlighter` for download the project
+- Run `git clone https://github.com/tomaspl/textHighlighter` for download the project
 
-### Go to textHighlighter folder : `cd textHighlighter`.
+- Go to textHighlighter folder : `cd textHighlighter`.
 
-### Run `npm install` to install all the dependencies
+- Run `npm install` to install all the dependencies
 
 ## Development server
 
