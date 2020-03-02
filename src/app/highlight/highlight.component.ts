@@ -25,15 +25,20 @@ export class HighlightComponent implements OnInit, OnChanges {
   selectedColour: string;
   listHighlightByColour: any;
   userText: SafeHtml;
+  selectColourForFilter: string;
   constructor(private sanitizer: DomSanitizer) {}
 
   ngOnChanges(simpleChanges: SimpleChanges) {
-    if (simpleChanges.listFilteredByHighlightColour.currentValue) {
+    if (simpleChanges.listFilteredByHighlightColour.currentValue.length > 0) {
       this.listHighlightByColour = this.sanitizer.bypassSecurityTrustHtml(
         this.mapFilteredHighlights(
           simpleChanges.listFilteredByHighlightColour.currentValue
         )
       );
+    } else {
+      this.listHighlightByColour = this.selectColourForFilter
+        ? "No text was highlighted with the colour selected"
+        : "";
     }
   }
 
@@ -55,6 +60,7 @@ export class HighlightComponent implements OnInit, OnChanges {
     this.selectedColour = colour;
   }
   selectedFilter(colour) {
+    this.selectColourForFilter = colour;
     this.filterByColour.emit(colour);
   }
 

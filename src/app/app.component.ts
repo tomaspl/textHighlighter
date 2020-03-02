@@ -19,9 +19,8 @@ export class AppComponent implements OnDestroy {
   listenerFilteredHighlightByColour: Subscription;
   coloursForHighlight: Array<ColourConfiguration> = [
     { colour: "red", caption: "Red" },
-    { colour: "purple", caption: "Purple" },
-    { colour: "blue", caption: "Blue" },
-    { colour: "yellow", caption: "Yellow" }
+    { colour: "yellow", caption: "Yellow" },
+    { colour: "green", caption: "Green" }
   ];
   constructor(private store: Store<{ state: HighlightState }>) {}
 
