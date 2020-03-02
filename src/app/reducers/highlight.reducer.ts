@@ -1,4 +1,6 @@
-export const initialState = {
+import { HighlightState } from "../models/models";
+
+export const initialState: HighlightState = {
   colourToHighlight: "",
   colourToFilterHighlights: "",
   selectionList: [],

@@ -1,0 +1,49 @@
+<h2>Selection</h2>
+<p>
+  Click one of the colours and then select text.
+</p>
+
+<div class="card-container">
+  <a
+    *ngFor="let itemColour of coloursForHighlight"
+    class="card"
+    (click)="selectColor(itemColour.colour)"
+  >
+    <div
+      class="icon-colour"
+      [ngStyle]="{ background: itemColour.colour }"
+    ></div>
+    <span>{{ itemColour.caption }}</span>
+  </a>
+</div>
+<div>
+  <div
+    class="writeableBox"
+    contenteditable="true"
+    [innerHTML]="userText"
+    (selectedText)="highlightText($event)"
+    [selectedColour]="selectedColour"
+    (ondragover)="onDragOver($event)"
+    (ondragleave)="onDragLeave($event)"
+  ></div>
+  <h2>Filter</h2>
+  <p>
+    Click one of the colours to see al the text selected with that colour
+  </p>
+  <div class="card-container">
+    <a
+      *ngFor="let itemColour of coloursToHighlight"
+      [ngClass]="{ card: true, active: filterColour === itemColour.colour }"
+      (click)="selectedFilter(itemColour.colour)"
+    >
+      <div
+        class="icon-colour"
+        [ngStyle]="{ background: itemColour.colour }"
+      ></div>
+      <span>{{ itemColour.caption }}</span>
+    </a>
+  </div>
+  <div class="list-filter">
+    <mat-card class="list" [innerHTML]="listHighlightByColour"> </mat-card>
+  </div>
+</div>

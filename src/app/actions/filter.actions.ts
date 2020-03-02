@@ -1,8 +1,6 @@
 import { Action } from "@ngrx/store";
-interface colourSelection {
-  colourText: string;
-  text: string;
-}
+import { ColourSelection } from "../models/models";
+
 export class ChangeColour implements Action {
   readonly type = "ChangeColour";
   constructor(public payload: string) {}
@@ -15,7 +13,7 @@ export class ChangeFilter implements Action {
 
 export class AddedTextSelection implements Action {
   readonly type = "AddSelection";
-  constructor(public payload: colourSelection) {}
+  constructor(public payload: ColourSelection) {}
 }
 
 export class FilterTextSelection implements Action {

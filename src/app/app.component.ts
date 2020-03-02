@@ -1,8 +1,12 @@
-import { DomSanitizer } from "@angular/platform-browser";
-import { Component, ViewEncapsulation } from "@angular/core";
+import { Component, ViewEncapsulation, OnDestroy } from "@angular/core";
 import { Store } from "@ngrx/store";
 import * as colourActions from "./actions/filter.actions";
-import { ElementArrayFinder } from "protractor";
+import { Subscription } from "rxjs";
+import {
+  HighlightState,
+  ColourSelection,
+  ColourConfiguration
+} from "./models/models";
 
 @Component({
   selector: "app-root",
@@ -10,79 +14,43 @@ import { ElementArrayFinder } from "protractor";
   styleUrls: ["./app.component.scss"],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
-  title = "Text Highlighter";
-  selectedColour: any;
-  listHighlightByColour: any;
-  filterColour: any;
-  userText: any;
-  constructor(
-    private store: Store<{
-      state: any;
-    }>,
-    private sanitizer: DomSanitizer
-  ) {}
+export class AppComponent implements OnDestroy {
+  listFilteredByHighlightColour: Array<ColourSelection>;
+  listenerFilteredHighlightByColour: Subscription;
+  coloursForHighlight: Array<ColourConfiguration> = [
+    { colour: "red", caption: "Red" },
+    { colour: "purple", caption: "Purple" },
+    { colour: "blue", caption: "Blue" },
+    { colour: "yellow", caption: "Yellow" }
+  ];
+  constructor(private store: Store<{ state: HighlightState }>) {}
+
   ngOnInit() {
-    this.store.select("state").subscribe(state => {
-      this.selectedColour = state.colourToHighlight;
-      this.listHighlightByColour = this.sanitizer.bypassSecurityTrustHtml(
-        this.mapFilteredHighlights(state.filteredSelectionList)
-      );
-      if (this.filterColour !== state.colourToFilterHighlights) {
-        this.filterColour = state.colourToFilterHighlights;
-        this.store.dispatch(
-          new colourActions.FilterTextSelection(state.colourToFilterHighlights)
-        );
-      }
-    });
-
-    this.userText = this.sanitizer.bypassSecurityTrustHtml(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempor."
-    );
-
-    document.addEventListener("dragstart", function(event) {
-      // store a ref. on the dragged elem
-      event.preventDefault();
-    });
+    this.listenerFilteredHighlightByColour = this.store
+      .select(store => store.state.filteredSelectionList)
+      .subscribe(filteredSelectionList => {
+        if (filteredSelectionList) {
+          this.listFilteredByHighlightColour = filteredSelectionList;
+        }
+      });
   }
 
-  onDragOver(event) {
-    console.log("onDragOver");
-    event.preventDefault();
-  }
-
-  onDragLeave(event) {
-    event.preventDefault();
-  }
-
-  selectedColor(colour) {
-    this.store.dispatch(new colourActions.ChangeColour(colour));
-  }
-  selectedFilter(colour) {
-    this.store.dispatch(new colourActions.ChangeFilter(colour));
-  }
-
-  highlightText($event) {
-    this.userText = this.sanitizer.bypassSecurityTrustHtml($event.htmlText);
+  addedHighlightSelection($event) {
     this.store.dispatch(
       new colourActions.AddedTextSelection({
-        colourText: this.selectedColour,
-        text: $event.storeText
+        colourText: $event.colourText,
+        text: $event.text
       })
     );
   }
 
-  mapFilteredHighlights(list) {
-    let listString = "";
-    list.forEach(element => {
-      listString +=
-        '<mark style="background:' +
-        element.colourText +
-        '">' +
-        element.text +
-        "</mark><br/>";
-    });
+  filterByColour(colourToFilterHighlights) {
+    this.store.dispatch(
+      new colourActions.FilterTextSelection(colourToFilterHighlights)
+    );
+  }
 
-    return listString;
+  ngOnDestroy() {
+    this.listenerFilteredHighlightByColour.unsubscribe();
   }
 }

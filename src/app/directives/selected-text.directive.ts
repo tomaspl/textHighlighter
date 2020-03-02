@@ -15,10 +15,8 @@ export class SelectedTextDirective implements OnInit, OnDestroy {
   @Input() selectedColour: string;
   public selectedTextEvent: EventEmitter<any>;
   private elementRef: ElementRef;
-  private selectionData = [];
   constructor(elementRef: ElementRef) {
     this.elementRef = elementRef;
-
     this.selectedTextEvent = new EventEmitter();
   }
 
@@ -28,17 +26,17 @@ export class SelectedTextDirective implements OnInit, OnDestroy {
       this.handleMousedown,
       false
     );
-
-    document.addEventListener(
-      "selectionchange",
-      this.handleSelectionchange,
-      false
-    );
   }
 
   private handleMouseup = (): void => {
     document.removeEventListener("mouseup", this.handleMouseup, false);
-    if (this.selectedColour) this.processSelection();
+    if (
+      this.selectedColour &&
+      window.getSelection().focusNode.parentElement.localName !== "mark" &&
+      window.getSelection().anchorNode.nodeValue
+    ) {
+      this.processSelection();
+    }
   };
 
   private handleMousedown = (): void => {
@@ -46,7 +44,6 @@ export class SelectedTextDirective implements OnInit, OnDestroy {
   };
 
   private processSelection(): void {
-    console.log("this.selectedColour", this.selectedColour);
     const selectedText = window
       .getSelection()
       .anchorNode.nodeValue.substring(
@@ -83,10 +80,6 @@ export class SelectedTextDirective implements OnInit, OnDestroy {
     });
   }
 
-  private handleSelectionchange = (): void => {
-    //this.processSelection();
-  };
-
   public ngOnDestroy(): void {
     this.elementRef.nativeElement.removeEventListener(
       "mousedown",
@@ -94,10 +87,5 @@ export class SelectedTextDirective implements OnInit, OnDestroy {
       false
     );
     document.removeEventListener("mouseup", this.handleMouseup, false);
-    document.removeEventListener(
-      "selectionchange",
-      this.handleSelectionchange,
-      false
-    );
   }
 }

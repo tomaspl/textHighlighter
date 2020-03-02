@@ -11,9 +11,10 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { reducers } from "./reducers";
 import { SelectedTextDirective } from "./directives/selected-text.directive";
 import { FormsModule } from "@angular/forms";
+import { HighlightComponent } from "./highlight/highlight.component";
 
 @NgModule({
-  declarations: [AppComponent, SelectedTextDirective],
+  declarations: [AppComponent, SelectedTextDirective, HighlightComponent],
   imports: [
     BrowserModule,
     NoopAnimationsModule,
