@@ -2,7 +2,6 @@
 <p>
   Click one of the colours and then select text.
 </p>
-
 <div class="card-container">
   <a
     *ngFor="let itemColour of coloursForHighlight"
@@ -17,6 +16,8 @@
   </a>
 </div>
 <div>
+  <span class="error">{{ errorHighlight }}</span>
+
   <div
     class="writeableBox"
     contenteditable="true"
@@ -28,7 +29,7 @@
   ></div>
   <h2>Filter</h2>
   <p>
-    Click one of the colours to see al the text selected with that colour
+    Click one of the colours to see all the texts highlighted with that colour.
   </p>
   <div class="card-container">
     <a

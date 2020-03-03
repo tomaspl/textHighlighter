@@ -15,9 +15,9 @@ import {
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnDestroy {
-  listFilteredByHighlightColour: Array<ColourSelection>;
-  listenerFilteredHighlightByColour: Subscription;
-  coloursForHighlight: Array<ColourConfiguration> = [
+  public listFilteredByHighlightColour: Array<ColourSelection>;
+  public listenerFilteredHighlightByColour: Subscription;
+  public coloursForHighlight: Array<ColourConfiguration> = [
     { colour: "red", caption: "Red" },
     { colour: "yellow", caption: "Yellow" },
     { colour: "green", caption: "Green" }
@@ -34,7 +34,11 @@ export class AppComponent implements OnDestroy {
       });
   }
 
-  addedHighlightSelection($event) {
+  ngOnDestroy() {
+    this.listenerFilteredHighlightByColour.unsubscribe();
+  }
+
+  public addedHighlightSelection($event) {
     this.store.dispatch(
       new colourActions.AddedTextSelection({
         colourText: $event.colourText,
@@ -43,13 +47,9 @@ export class AppComponent implements OnDestroy {
     );
   }
 
-  filterByColour(colourToFilterHighlights) {
+  public filterByColour(colourToFilterHighlights) {
     this.store.dispatch(
       new colourActions.FilterTextSelection(colourToFilterHighlights)
     );
-  }
-
-  ngOnDestroy() {
-    this.listenerFilteredHighlightByColour.unsubscribe();
   }
 }

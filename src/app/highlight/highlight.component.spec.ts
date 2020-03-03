@@ -51,6 +51,30 @@ describe("HighlightComponent", () => {
     );
   });
 
+  it("should show legend that no text was found with the colout filter asked for", () => {
+    component.selectColourForFilter = "red";
+
+    component.ngOnChanges(<any>{
+      listFilteredByHighlightColour: {
+        currentValue: []
+      }
+    });
+    expect(component.listHighlightByColour).toEqual(
+      "No text was highlighted with the colour selected"
+    );
+  });
+
+  it("should not show legend on filter list", () => {
+    component.selectColourForFilter = "";
+
+    component.ngOnChanges(<any>{
+      listFilteredByHighlightColour: {
+        currentValue: []
+      }
+    });
+    expect(component.listHighlightByColour).toEqual("");
+  });
+
   it("should call event prevent default on drag & drop events", () => {
     var e = jasmine.createSpyObj("e", ["preventDefault"]);
     component.onDragOver(e);
@@ -61,8 +85,15 @@ describe("HighlightComponent", () => {
   it("should emit highlighted text", () => {
     const spy = spyOn(component.addedHighlightSelection, "emit");
     component.selectedColour = "red";
-    component.highlightText({ htmlText: "", storeText: "" });
+    component.highlightText({ htmlText: "test", storeText: "" });
     expect(spy).toHaveBeenCalled();
+  });
+
+  it("should show highlight error", () => {
+    const spy = spyOn(component.addedHighlightSelection, "emit");
+    component.selectedColour = "red";
+    component.highlightText({ htmlText: "", storeText: "", error: "error" });
+    expect(component.errorHighlight).toEqual("error");
   });
 
   it("should emit selected colout for filtering highlights", () => {

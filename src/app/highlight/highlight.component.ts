@@ -17,23 +17,25 @@ import { ColourSelection, ColourConfiguration } from "../models/models";
   encapsulation: ViewEncapsulation.None
 })
 export class HighlightComponent implements OnInit, OnChanges {
+  public selectedColour: string;
+  public listHighlightByColour: any;
+  public userText: SafeHtml;
+  public selectColourForFilter: string;
+  public errorHighlight: string;
   @Input() coloursForHighlight: Array<ColourConfiguration>;
   @Input() listFilteredByHighlightColour: Array<ColourSelection>;
   @Output() addedHighlightSelection = new EventEmitter<ColourSelection>();
   @Output() filterByColour = new EventEmitter<string>();
 
-  selectedColour: string;
-  listHighlightByColour: any;
-  userText: SafeHtml;
-  selectColourForFilter: string;
   constructor(private sanitizer: DomSanitizer) {}
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges.listFilteredByHighlightColour.currentValue.length > 0) {
+      const mappedFilteredHighlights = this.mapFilteredHighlights(
+        simpleChanges.listFilteredByHighlightColour.currentValue
+      );
       this.listHighlightByColour = this.sanitizer.bypassSecurityTrustHtml(
-        this.mapFilteredHighlights(
-          simpleChanges.listFilteredByHighlightColour.currentValue
-        )
+        mappedFilteredHighlights
       );
     } else {
       this.listHighlightByColour = this.selectColourForFilter
@@ -48,32 +50,37 @@ export class HighlightComponent implements OnInit, OnChanges {
     });
   }
 
-  onDragOver($event) {
+  public onDragOver($event) {
     $event.preventDefault();
   }
 
-  onDragLeave($event) {
+  public onDragLeave($event) {
     $event.preventDefault();
   }
 
-  selectColor(colour) {
+  public selectColor(colour) {
     this.selectedColour = colour;
   }
-  selectedFilter(colour) {
+  public selectedFilter(colour) {
     this.selectColourForFilter = colour;
     this.filterByColour.emit(colour);
   }
 
-  highlightText($event) {
-    this.userText = this.sanitizer.bypassSecurityTrustHtml($event.htmlText);
-    this.addedHighlightSelection.emit({
-      colourText: this.selectedColour,
-      text: $event.storeText,
-      htmlText: $event.htmlText
-    });
+  public highlightText($event) {
+    if ($event.htmlText !== "") {
+      this.errorHighlight = "";
+      this.userText = this.sanitizer.bypassSecurityTrustHtml($event.htmlText);
+      this.addedHighlightSelection.emit({
+        colourText: this.selectedColour,
+        text: $event.storeText,
+        htmlText: $event.htmlText
+      });
+    } else {
+      this.errorHighlight = $event.error;
+    }
   }
 
-  mapFilteredHighlights(list) {
+  private mapFilteredHighlights(list) {
     let listString = "";
     list.forEach(element => {
       listString +=
