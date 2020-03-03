@@ -3,8 +3,6 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { HighlightComponent } from "./highlight.component";
 import { SelectedTextDirective } from "../directives/selected-text.directive";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { MockStore } from "../mocks/store.mock";
 import { DomSanitizer } from "@angular/platform-browser";
 
 describe("HighlightComponent", () => {
